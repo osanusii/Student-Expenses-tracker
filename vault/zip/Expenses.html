@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Expenses - StudentBudget</title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="Style.css" />
+  </head>
+
+  <body>
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav class="nav-bar">
+      <div class="logo">StudentBudget</div>
+
+      <div class="main-nav">
+        <a href="Dashboard.html" class="nav-link"> Dashboard </a>
+
+        <a href="Expenses.html" class="nav-link active"> Expenses </a>
+
+        <a href="Saving.html" class="nav-link"> Savings </a>
+      </div>
+
+      <div class="right-nav">
+        <a href="#" class="icon-link" id="openLimit">
+          <i class="fa-regular fa-clock"></i>
+          <span>Limits</span>
+        </a>
+
+        <button
+          type="button"
+          class="theme-toggle"
+          id="themeToggle"
+          aria-label="Toggle dark mode"
+        >
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="expenses-page">
+      <!-- ================= PAGE HEADER ================= -->
+
+      <section class="expenses-header">
+        <div>
+          <p class="welcome-text">Your spending</p>
+
+          <h1>Expenses</h1>
+
+          <p class="subtitle">
+            Track where your money goes and stay within your budget.
+          </p>
+        </div>
+
+        <button type="button" class="add-expense-btn" id="openExpenseModal">
+          <i class="fa-solid fa-plus"></i>
+          Add Expense
+        </button>
+      </section>
+
+      <!-- ================= SUMMARY CARDS ================= -->
+
+      <section class="expense-summary">
+        <article class="expense-summary-card">
+          <div class="summary-icon purple">
+            <i class="fa-solid fa-calendar-day"></i>
+          </div>
+
+          <div>
+            <p>Today's Spending</p>
+            <h2 id="dailySpending">₦0</h2>
+          </div>
+        </article>
+
+        <article class="expense-summary-card">
+          <div class="summary-icon orange">
+            <i class="fa-solid fa-calendar"></i>
+          </div>
+
+          <div>
+            <p>This Month</p>
+            <h2 id="monthlySpending">₦0</h2>
+          </div>
+        </article>
+
+        <article class="expense-summary-card">
+          <div class="summary-icon blue">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+
+          <div>
+            <p>Total Expenses</p>
+            <h2 id="totalExpenses">₦0</h2>
+          </div>
+        </article>
+
+        <article class="expense-summary-card">
+          <div class="summary-icon green">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+          </div>
+
+          <div>
+            <p>Highest Expense</p>
+            <h2 id="highestExpense">₦0</h2>
+          </div>
+        </article>
+
+        <article class="expense-summary-card">
+          <div class="summary-icon red">
+            <i class="fa-solid fa-list-check"></i>
+          </div>
+
+          <div>
+            <p>Transactions</p>
+            <h2 id="transCount">0</h2>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================= CATEGORY BREAKDOWN ================= -->
+
+      <section class="category-breakdown" id="categoryBreakdown">
+        <div class="category-breakdown-header">
+          <div>
+            <h2>Spending by Category</h2>
+            <p>Where your money goes</p>
+          </div>
+        </div>
+
+        <div class="category-breakdown-list" id="categoryBreakdownList"></div>
+      </section>
+
+      <!-- ================= EXPENSE HISTORY ================= -->
+
+      <section class="expenses-container">
+        <div class="expenses-list-header">
+          <div>
+            <h2>All Expenses</h2>
+
+            <p>Your recent spending history</p>
+          </div>
+
+          <div class="expense-actions">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input
+                type="search"
+                placeholder="Search expenses..."
+                id="expenseSearch"
+              />
+            </div>
+
+            <select class="expense-filter" id="expenseFilter">
+              <option value="all">All categories</option>
+
+              <option value="food">Food</option>
+
+              <option value="transport">Transportation</option>
+
+              <option value="education">Education</option>
+
+              <option value="bills">Bills</option>
+
+              <option value="shopping">Shopping</option>
+
+              <option value="entertainment">Entertainment</option>
+
+              <option value="health">Health</option>
+
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="expenseList"></div>
+      </section>
+    </main>
+
+    <!-- ================= ADD / EDIT EXPENSE MODAL ================= -->
+
+    <div class="modal-overlay" id="expenseModal">
+      <div class="expense-modal">
+        <div class="modal-header">
+          <div>
+            <h2 id="expenseModalTitle">Add Expense</h2>
+
+            <p id="expenseModalSubtitle">Record a new expense.</p>
+          </div>
+
+          <button
+            type="button"
+            class="close-modal"
+            id="closeExpenseModal"
+            aria-label="Close"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- ================= EXPENSE FORM ================= -->
+
+        <form class="expense-form" id="expenseForm">
+          <div class="form-group">
+            <label for="expenseName"> Expense name </label>
+
+            <input
+              type="text"
+              id="expenseName"
+              name="expenseName"
+              placeholder="e.g. Lunch"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="expenseAmount"> Amount </label>
+
+            <div class="amount-input">
+              <span>₦</span>
+
+              <input
+                type="number"
+                id="expenseAmount"
+                name="expenseAmount"
+                placeholder="0"
+                min="0.01"
+                step="0.01"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="expenseCategory"> Category </label>
+
+            <select id="expenseCategory" name="expenseCategory" required>
+              <option value="" disabled selected>Select a category</option>
+
+              <option value="food">Food</option>
+
+              <option value="transport">Transportation</option>
+
+              <option value="education">Education</option>
+
+              <option value="bills">Bills</option>
+
+              <option value="shopping">Shopping</option>
+
+              <option value="entertainment">Entertainment</option>
+
+              <option value="health">Health</option>
+
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="expenseDate"> Date </label>
+
+            <input type="date" id="expenseDate" name="expenseDate" required />
+          </div>
+
+          <div class="form-group">
+            <label for="expenseNotes"> Notes (Optional) </label>
+
+            <input
+              type="text"
+              id="expenseNotes"
+              name="expenseNotes"
+              placeholder="e.g. Bought lunch at the cafeteria"
+            />
+          </div>
+
+          <button type="submit" class="submit-expense" id="add">
+            <i class="fa-solid fa-plus"></i>
+            <span id="expenseSubmitText">Add Expense</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= TOAST ================= -->
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <div class="limit-overlay" id="limitOverlay"></div>
+
+    <aside class="limit-sidebar" id="limitSidebar">
+      <div class="limit-header">
+        <div>
+          <h2>Spending Limits</h2>
+          <p>Set limits for your spending.</p>
+        </div>
+
+        <button type="button" id="closeLimit" class="close-limit">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="limitForm">
+        <div class="limit-group">
+          <label for="received">Received</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="received"
+              placeholder="e.g. 60,000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+        <div class="limit-group">
+          <label for="dailyLimit">Daily Spending Limit</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="dailyLimit"
+              placeholder="e.g. 5000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="limit-group">
+          <label for="monthlyLimit">Monthly Spending Limit</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="monthlyLimit"
+              placeholder="e.g. 80000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="save-limit">
+          <i class="fa-solid fa-check"></i>
+          Save Limits
+        </button>
+      </form>
+    </aside>
+    <script src="script.js"></script>
+    <script src="limit.js"></script>
+    <script src="theme.js"></script>
+  </body>
+</html>
+<!-- </write_to_file>
+<task_progress>
+- [x] Audit Expenses.html
+- [x] Audit script.js (expenses logic)
+- [x] Audit dashboard.js expense integration
+- [x] Audit limit.js expense-limit integration
+- [x] Identify missing/weak functionality
+- [x] Update Expenses.html with improved form, categories, stats
+- [x] Rewrite script.js with edit/delete/validation/toast
+- [x] Fix stray content in script.js
+- [x] Add new styles to style.css
+- [x] Rewrite Expenses.html cleanly
+- [ ] Verify no stray content in JS files
+- [ ] Verify dashboard integration
+- [ ] Final project-wide audit
+</task_progress>
+</write_to_file> -->

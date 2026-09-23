@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Budget</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="Style.css" />
+  </head>
+
+  <body>
+    <nav class="nav-bar">
+      <div class="logo">StudentBudget</div>
+
+      <div class="main-nav">
+        <a href="Dashboard.html" class="nav-link active">Dashboard</a>
+        <a href="Expenses.html" class="nav-link">Expenses</a>
+        <a href="Saving.html" class="nav-link">Savings</a>
+      </div>
+
+      <div class="right-nav">
+        <a href="#" class="icon-link" id="openLimit">
+          <i class="fa-regular fa-clock"></i>
+          <span>Limits</span>
+        </a>
+
+        <button
+          type="button"
+          class="theme-toggle"
+          id="themeToggle"
+          aria-label="Toggle dark mode"
+        >
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </nav>
+
+    <main class="dashboard">
+      <section class="dashboard-header">
+        <p class="welcome-text">Good afternoon 👋</p>
+        <h1>Financial Overview</h1>
+        <p class="subtitle">Keep track of your spending and savings.</p>
+      </section>
+
+      <section class="cards-container">
+        <article class="card balance-card">
+          <div class="card-top">
+            <p class="card-label">Balance</p>
+            <span class="card-icon">
+              <i class="fa-solid fa-chart-pie"></i>
+            </span>
+          </div>
+
+          <h2 id="balance">₦0</h2>
+          <p class="card-description">Available balance</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <p class="card-label">Spending Limit</p>
+            <span class="card-icon">
+              <i class="fa-regular fa-clock"></i>
+            </span>
+          </div>
+
+          <h2 id="dlimit">₦0</h2>
+          <p class="card-description">Daily limit</p>
+
+          <div class="progress-bar">
+            <div class="progress" id="limitProgress"></div>
+          </div>
+
+          <p class="progress-text" id="limitProgressText">₦0 used today</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <p class="card-label">Today's Spending</p>
+
+            <span class="card-icon spending-icon">
+              <i class="fa-solid fa-arrow-up-right-dots"></i>
+            </span>
+          </div>
+
+          <h2 id="dailySpending">₦0</h2>
+
+          <p class="card-description" id="dlimit1">Of ₦0 daily limit</p>
+
+          <div class="progress-bar">
+            <div class="progress" id="todayProgress"></div>
+          </div>
+
+          <p class="progress-text" id="dailyRemaining">₦0 remaining</p>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <p class="card-label">Monthly Spending</p>
+
+            <span class="card-icon monthly-icon">
+              <i class="fa-solid fa-wallet"></i>
+            </span>
+          </div>
+
+          <h2 id="monthlySpending">₦0</h2>
+
+          <p class="card-description" id="mlimit">Of ₦0 monthly limit</p>
+
+          <div class="progress-bar">
+            <div class="progress" id="monthProgress"></div>
+          </div>
+
+          <p class="progress-text" id="monthlyRemaining">₦0 remaining</p>
+        </article>
+
+        <article class="card savings-card">
+          <div class="card-top">
+            <p class="card-label">Savings</p>
+
+            <span class="card-icon">
+              <i class="fa-solid fa-piggy-bank"></i>
+            </span>
+          </div>
+
+          <h2 id="savingsAmount">₦0</h2>
+
+          <p class="card-description">Total saved</p>
+
+          <div class="progress-bar">
+            <div class="progress" id="savingsProgress"></div>
+          </div>
+
+          <p class="progress-text" id="savingsProgressText">₦0 saved</p>
+        </article>
+
+        <article class="card received-card">
+          <div class="card-top">
+            <p class="card-label">Received</p>
+
+            <span class="card-icon">
+              <i class="fa-solid fa-arrow-down"></i>
+            </span>
+          </div>
+
+          <h2 id="receivedAmt">₦0</h2>
+
+          <p class="card-description">Money received</p>
+        </article>
+      </section>
+    </main>
+
+    <div class="limit-overlay" id="limitOverlay"></div>
+
+    <aside class="limit-sidebar" id="limitSidebar">
+      <div class="limit-header">
+        <div>
+          <h2>Spending Limits</h2>
+          <p>Set limits for your spending.</p>
+        </div>
+
+        <button type="button" id="closeLimit" class="close-limit">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="limitForm">
+        <div class="limit-group">
+          <label for="received">Received</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+
+            <input
+              type="number"
+              id="received"
+              placeholder="e.g. 60000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="limit-group">
+          <label for="dailyLimit">Daily Spending Limit</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+
+            <input
+              type="number"
+              id="dailyLimit"
+              placeholder="e.g. 5000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="limit-group">
+          <label for="monthlyLimit">Monthly Spending Limit</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+
+            <input
+              type="number"
+              id="monthlyLimit"
+              placeholder="e.g. 80000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="save-limit">
+          <i class="fa-solid fa-check"></i>
+          Save Limits
+        </button>
+      </form>
+    </aside>
+
+    <script src="dashboard.js"></script>
+    <script src="limit.js"></script>
+    <script src="theme.js"></script>
+  </body>
+</html>

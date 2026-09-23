@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Savings - StudentBudget</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="Style.css" />
+  </head>
+
+  <body>
+    <nav class="nav-bar">
+      <div class="logo">StudentBudget</div>
+
+      <div class="main-nav">
+        <a href="Dashboard.html" class="nav-link">Dashboard</a>
+        <a href="Expenses.html" class="nav-link">Expenses</a>
+        <a href="Saving.html" class="nav-link active">Savings</a>
+      </div>
+
+      <div class="right-nav">
+        <a href="#" class="icon-link" id="openLimit">
+          <i class="fa-regular fa-clock"></i>
+          <span>Limits</span>
+        </a>
+
+        <button
+          type="button"
+          class="theme-toggle"
+          id="themeToggle"
+          aria-label="Toggle dark mode"
+        >
+          <i class="fa-solid fa-moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </nav>
+
+    <main class="savings-page">
+      <section class="savings-header">
+        <div>
+          <p class="welcome-text">Build your future</p>
+          <h1>Savings Goals</h1>
+          <p class="subtitle">
+            Create goals, save consistently, and watch your money grow.
+          </p>
+        </div>
+
+        <button type="button" class="add-savings-btn" id="addSaving">
+          <i class="fa-solid fa-plus"></i>
+          Add Goal
+        </button>
+      </section>
+
+      <section class="savings-overview">
+        <article class="savings-main-card">
+          <div class="savings-card-header">
+            <div>
+              <p class="card-label">Total Saved</p>
+              <h2 id="totalSavings">₦0</h2>
+              <p class="card-description">Across all your savings goals</p>
+            </div>
+
+            <div class="savings-icon">
+              <i class="fa-solid fa-piggy-bank"></i>
+            </div>
+          </div>
+
+          <div class="savings-progress-area">
+            <div class="progress-info">
+              <span>Overall Goal Progress</span>
+              <strong id="goalAmount">₦0 / ₦0</strong>
+            </div>
+
+            <div class="savings-progress-bar">
+              <div class="savings-progress" id="savingsProgress"></div>
+            </div>
+
+            <p class="progress-percentage" id="goalPercent">
+              0% of total goals
+            </p>
+          </div>
+        </article>
+
+        <article class="savings-stat-card">
+          <div class="stat-icon blue">
+            <i class="fa-solid fa-bullseye"></i>
+          </div>
+
+          <div>
+            <p>Active Goals</p>
+            <h2 id="activeGoals">0</h2>
+            <span>In progress</span>
+          </div>
+        </article>
+
+        <article class="savings-stat-card">
+          <div class="stat-icon purple">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+
+          <div>
+            <p>Completed</p>
+            <h2 id="completedGoals">0</h2>
+            <span>Goals reached</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="goals-grid" id="goalsGrid">
+        <div class="goals-empty" id="goalsEmpty">
+          <div class="goals-empty-icon">
+            <i class="fa-solid fa-piggy-bank"></i>
+          </div>
+          <h3>No savings goals yet</h3>
+          <p>Create your first savings goal to start building your future.</p>
+        </div>
+      </section>
+    </main>
+
+    <div class="limit-overlay" id="limitOverlay"></div>
+
+    <aside class="limit-sidebar" id="limitSidebar">
+      <div class="limit-header">
+        <div>
+          <h2>Spending Limits</h2>
+          <p>Set limits for your spending.</p>
+        </div>
+
+        <button type="button" id="closeLimit" class="close-limit">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="limitForm">
+        <div class="limit-group">
+          <label for="received">Received</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="received"
+              placeholder="e.g. 60000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="limit-group">
+          <label for="dailyLimit">Daily Spending Limit</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="dailyLimit"
+              placeholder="e.g. 5000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="limit-group">
+          <label for="monthlyLimit">Monthly Spending Limit</label>
+
+          <div class="limit-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="monthlyLimit"
+              placeholder="e.g. 80000"
+              min="0"
+              required
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="save-limit">
+          <i class="fa-solid fa-check"></i>
+          Save Limits
+        </button>
+      </form>
+    </aside>
+
+    <!-- Create / Edit Goal Modal -->
+    <div class="modal-overlay" id="goalModal">
+      <form class="expense-modal" id="goalForm">
+        <div class="modal-header">
+          <div>
+            <h2 id="goalModalTitle">Create Savings Goal</h2>
+            <p id="goalModalSubtitle">Set a new savings target.</p>
+          </div>
+
+          <button type="button" class="close-modal" id="closeGoalModal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label for="goalName">Goal Name</label>
+          <input
+            type="text"
+            id="goalName"
+            placeholder="e.g. School Fees"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="goalCategory">Category</label>
+          <select id="goalCategory" required>
+            <option value="">Select a category</option>
+            <option value="Emergency Fund">Emergency Fund</option>
+            <option value="School Fees">School Fees</option>
+            <option value="New Laptop">New Laptop</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Personal Goal">Personal Goal</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="goalTargetAmount">Target Amount</label>
+          <div class="amount-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="goalTargetAmount"
+              placeholder="e.g. 50000"
+              min="1"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="goalCurrentAmount">Current Amount (Optional)</label>
+          <div class="amount-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="goalCurrentAmount"
+              placeholder="e.g. 5000"
+              min="0"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="goalTargetDate">Target Date (Optional)</label>
+          <input type="date" id="goalTargetDate" />
+        </div>
+
+        <div class="form-group">
+          <label for="goalNotes">Notes (Optional)</label>
+          <input
+            type="text"
+            id="goalNotes"
+            placeholder="e.g. Save for tuition by next semester"
+          />
+        </div>
+
+        <button type="submit" class="save-limit">
+          <i class="fa-solid fa-check"></i>
+          <span id="goalSubmitText">Create Goal</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Add Money Modal -->
+    <div class="modal-overlay" id="addMoneyModal">
+      <form class="expense-modal" id="addMoneyForm">
+        <div class="modal-header">
+          <div>
+            <h2>Add Money</h2>
+            <p id="addMoneyGoalName">Add to your savings goal.</p>
+          </div>
+
+          <button type="button" class="close-modal" id="closeAddMoneyModal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label for="addMoneyAmount">Amount</label>
+          <div class="amount-input">
+            <span>₦</span>
+            <input
+              type="number"
+              id="addMoneyAmount"
+              placeholder="e.g. 5000"
+              min="1"
+              required
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="save-limit">
+          <i class="fa-solid fa-plus"></i>
+          Add to Goal
+        </button>
+      </form>
+    </div>
+
+    <script src="limit.js"></script>
+    <script src="saving.js"></script>
+    <script src="theme.js"></script>
+  </body>
+</html>
